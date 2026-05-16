@@ -1,53 +1,56 @@
-<%# Period toggle state %>
+<% content_for :page_title, "Details" %>
 <% yearly = params[:period] == "yearly" %>
 <% multiplier = yearly ? 12 : 1 %>
 
-<%# ── Period toggle ─────────────────────────────────────────────── %>
-<div class="flex bg-slate-900 rounded-xl p-1 mt-2 mb-6 gap-1">
-  <%= link_to details_path, class: "flex-1 text-center py-2 rounded-lg text-sm font-medium transition-all #{!yearly ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-slate-300'}" do %>
+<%# ── Period toggle ─────────────────────────────────────────────────── %>
+<div class="flex bg-slate-900 lg:bg-slate-800/60 rounded-xl p-1 mt-2 mb-6 gap-1 w-full lg:w-auto lg:mt-0">
+  <%= link_to details_path,
+      class: "flex-1 lg:flex-none lg:px-5 text-center py-2 rounded-lg text-sm font-medium transition-all duration-150 #{!yearly ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-300'}" do %>
     Monthly
   <% end %>
-  <%= link_to details_path(period: "yearly"), class: "flex-1 text-center py-2 rounded-lg text-sm font-medium transition-all #{yearly ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-slate-300'}" do %>
+  <%= link_to details_path(period: "yearly"),
+      class: "flex-1 lg:flex-none lg:px-5 text-center py-2 rounded-lg text-sm font-medium transition-all duration-150 #{yearly ? 'bg-slate-700 text-white shadow-sm' : 'text-slate-400 hover:text-slate-300'}" do %>
     Yearly
   <% end %>
 </div>
 
-<%# ── Income ────────────────────────────────────────────────────── %>
-<%= render "details/section",
-    title: "Income",
-    total_cents: @income_items.sum(:amount_cents_monthly),
-    items: @income_items,
-    multiplier: multiplier,
-    yearly: yearly,
-    color: "emerald",
-    sign: "+" %>
+<%# ── Desktop 2-column grid, mobile stacked ─────────────────────────── %>
+<div class="lg:grid lg:grid-cols-2 lg:gap-6 lg:items-start">
 
-<%# ── Housing ───────────────────────────────────────────────────── %>
-<%= render "details/section",
-    title: "Housing",
-    total_cents: @housing_items.sum(:amount_cents_monthly),
-    items: @housing_items,
-    multiplier: multiplier,
-    yearly: yearly,
-    color: "red",
-    sign: "-" %>
+  <%= render "details/section",
+      title: "Income",
+      total_cents: @income_items.sum(:amount_cents_monthly),
+      items: @income_items,
+      multiplier: multiplier,
+      yearly: yearly,
+      color: "emerald",
+      sign: "+" %>
 
-<%# ── Subscriptions ─────────────────────────────────────────────── %>
-<%= render "details/section",
-    title: "Subscriptions",
-    total_cents: @subscription_items.sum(:amount_cents_monthly),
-    items: @subscription_items,
-    multiplier: multiplier,
-    yearly: yearly,
-    color: "red",
-    sign: "-" %>
+  <%= render "details/section",
+      title: "Housing",
+      total_cents: @housing_items.sum(:amount_cents_monthly),
+      items: @housing_items,
+      multiplier: multiplier,
+      yearly: yearly,
+      color: "red",
+      sign: "-" %>
 
-<%# ── Food & Entertainment ──────────────────────────────────────── %>
-<%= render "details/section",
-    title: "Food & Entertainment",
-    total_cents: @food_items.sum(:amount_cents_monthly),
-    items: @food_items,
-    multiplier: multiplier,
-    yearly: yearly,
-    color: "red",
-    sign: "-" %>
+  <%= render "details/section",
+      title: "Subscriptions",
+      total_cents: @subscription_items.sum(:amount_cents_monthly),
+      items: @subscription_items,
+      multiplier: multiplier,
+      yearly: yearly,
+      color: "red",
+      sign: "-" %>
+
+  <%= render "details/section",
+      title: "Food & Entertainment",
+      total_cents: @food_items.sum(:amount_cents_monthly),
+      items: @food_items,
+      multiplier: multiplier,
+      yearly: yearly,
+      color: "red",
+      sign: "-" %>
+
+</div>
