@@ -1,1 +1,22 @@
 @import "tailwindcss";
+
+/* Safe area insets for iPhone notch / home indicator */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Prevent overscroll bounce on iOS from showing white background */
+html, body {
+  background-color: #0f172a; /* slate-950 */
+  overscroll-behavior: none;
+}
+
+/* Smooth scrolling for main content area */
+#main-content {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Tabular numbers for financial figures */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

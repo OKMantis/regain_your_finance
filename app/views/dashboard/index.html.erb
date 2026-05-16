@@ -1,0 +1,96 @@
+<%# Period toggle state %>
+<% yearly = params[:period] == "yearly" %>
+<% toggle_path = yearly ? root_path : root_path(period: "yearly") %>
+<% multiplier = yearly ? 12 : 1 %>
+
+<%# ── Savings hero card ─────────────────────────────────────────── %>
+<div class="mt-2 mb-6">
+  <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-emerald-500/20 to-emerald-900/40 border border-emerald-500/30 p-6">
+    <div class="absolute inset-0 bg-gradient-to-br from-emerald-400/5 to-transparent"></div>
+    <div class="relative">
+      <p class="text-emerald-400 text-xs font-semibold uppercase tracking-widest mb-1">
+        <%= yearly ? "Yearly" : "Monthly" %> Savings
+      </p>
+      <p class="text-5xl font-bold text-white tabular-nums leading-tight">
+        €<%= number_with_delimiter((@savings_monthly * multiplier / 100.0).round, delimiter: ".") %>
+      </p>
+      <% if yearly %>
+        <p class="text-slate-400 text-sm mt-1">€<%= number_with_delimiter((@savings_monthly / 100.0).round, delimiter: ".") %> per month</p>
+      <% else %>
+        <p class="text-slate-400 text-sm mt-1">€<%= number_with_delimiter((@savings_monthly * 12 / 100.0).round, delimiter: ".") %> per year</p>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<%# ── Savings rate bar ──────────────────────────────────────────── %>
+<div class="mb-6 px-1">
+  <div class="flex justify-between items-center mb-2">
+    <span class="text-slate-400 text-sm">Savings rate</span>
+    <span class="text-emerald-400 font-semibold text-sm"><%= @savings_rate %>%</span>
+  </div>
+  <div class="h-2 bg-slate-800 rounded-full overflow-hidden">
+    <div class="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all duration-500"
+         style="width: <%= [[@savings_rate, 0].max, 100].min %>%"></div>
+  </div>
+</div>
+
+<%# ── Period toggle ─────────────────────────────────────────────── %>
+<div class="flex bg-slate-900 rounded-xl p-1 mb-6 gap-1">
+  <%= link_to root_path, class: "flex-1 text-center py-2 rounded-lg text-sm font-medium transition-all #{!yearly ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-slate-300'}" do %>
+    Monthly
+  <% end %>
+  <%= link_to root_path(period: "yearly"), class: "flex-1 text-center py-2 rounded-lg text-sm font-medium transition-all #{yearly ? 'bg-slate-700 text-white shadow' : 'text-slate-400 hover:text-slate-300'}" do %>
+    Yearly
+  <% end %>
+</div>
+
+<%# ── Income summary ────────────────────────────────────────────── %>
+<div class="mb-4">
+  <div class="flex justify-between items-center py-3 border-b border-slate-800">
+    <span class="text-slate-300 font-semibold flex items-center gap-2">
+      <span class="text-emerald-400">↑</span> Total Income
+    </span>
+    <span class="text-emerald-400 font-semibold tabular-nums">
+      €<%= number_with_delimiter((@income_monthly * multiplier / 100.0).round, delimiter: ".") %>
+    </span>
+  </div>
+
+  <% @income_items.each do |item| %>
+    <div class="flex justify-between items-center py-2.5 pl-4">
+      <span class="text-slate-400 text-sm"><%= item.name %></span>
+      <span class="text-slate-300 text-sm tabular-nums">
+        €<%= number_with_delimiter((item.amount_cents_monthly * multiplier / 100.0).round, delimiter: ".") %>
+      </span>
+    </div>
+  <% end %>
+</div>
+
+<%# ── Expense summary ───────────────────────────────────────────── %>
+<div class="mb-6">
+  <div class="flex justify-between items-center py-3 border-b border-slate-800">
+    <span class="text-slate-300 font-semibold flex items-center gap-2">
+      <span class="text-red-400">↓</span> Total Expenses
+    </span>
+    <span class="text-red-400 font-semibold tabular-nums">
+      -€<%= number_with_delimiter((@total_expense_monthly * multiplier / 100.0).round, delimiter: ".") %>
+    </span>
+  </div>
+
+  <% category_labels = { "housing" => "Housing", "subscriptions" => "Subscriptions", "investments" => "Investments", "food_entertainment" => "Food & Entertainment" } %>
+  <% @expense_by_category.sort_by { |_, v| -v }.each do |category, cents| %>
+    <% next if cents == 0 %>
+    <div class="flex justify-between items-center py-2.5 pl-4">
+      <span class="text-slate-400 text-sm"><%= category_labels[category] || category.humanize %></span>
+      <span class="text-slate-300 text-sm tabular-nums">
+        -€<%= number_with_delimiter((cents * multiplier / 100.0).round, delimiter: ".") %>
+      </span>
+    </div>
+  <% end %>
+  <div class="flex justify-between items-center py-2.5 pl-4">
+    <span class="text-slate-400 text-sm">Property costs</span>
+    <span class="text-slate-300 text-sm tabular-nums">
+      -€<%= number_with_delimiter((@property_expense_monthly * multiplier / 100.0).round, delimiter: ".") %>
+    </span>
+  </div>
+</div>
