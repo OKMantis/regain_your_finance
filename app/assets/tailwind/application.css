@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@layer base {
+  body {
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+}
+
 /* Safe area insets for iPhone notch / home indicator */
 .safe-bottom {
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -19,4 +25,53 @@ html, body {
 /* Tabular numbers for financial figures */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbar — desktop only */
+@media (min-width: 1024px) {
+  #main-content::-webkit-scrollbar,
+  aside::-webkit-scrollbar {
+    width: 4px;
+  }
+  #main-content::-webkit-scrollbar-track,
+  aside::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  #main-content::-webkit-scrollbar-thumb,
+  aside::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 2px;
+  }
+  #main-content::-webkit-scrollbar-thumb:hover,
+  aside::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+  }
+}
+
+/* Ambient glow on hero card — desktop only */
+@media (min-width: 1024px) {
+  .hero-glow::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: radial-gradient(ellipse at 30% 50%, rgba(52, 211, 153, 0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+/* Active indicator strip above active bottom nav item */
+.nav-active-indicator {
+  position: relative;
+}
+.nav-active-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 2px;
+  background: #34d399;
+  border-radius: 0 0 2px 2px;
 }
