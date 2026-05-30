@@ -1,7 +1,7 @@
 require "test_helper"
 
 class SpendingCategoriesControllerTest < ActionDispatch::IntegrationTest
-  test "POST /spending_categories creates a category with weekly target" do
+  test "POST /spending_categories creates a category with weekly target derives monthly" do
     assert_difference "SpendingCategory.count", 1 do
       post spending_categories_path,
            params: { spending_category: { name: "Coffee", target_euros: "20", target_period: "weekly" } }
@@ -10,10 +10,10 @@ class SpendingCategoriesControllerTest < ActionDispatch::IntegrationTest
     cat = SpendingCategory.last
     assert_equal "Coffee", cat.name
     assert_equal 2000, cat.weekly_target_cents
-    assert_nil cat.monthly_target_cents
+    assert_equal 8000, cat.monthly_target_cents
   end
 
-  test "POST /spending_categories creates a category with monthly target" do
+  test "POST /spending_categories creates a category with monthly target derives weekly" do
     assert_difference "SpendingCategory.count", 1 do
       post spending_categories_path,
            params: { spending_category: { name: "Dining", target_euros: "80", target_period: "monthly" } }
@@ -21,7 +21,7 @@ class SpendingCategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to spending_path
     cat = SpendingCategory.last
     assert_equal 8000, cat.monthly_target_cents
-    assert_nil cat.weekly_target_cents
+    assert_equal 2000, cat.weekly_target_cents
   end
 
   test "POST /spending_categories creates a category with no target" do
@@ -49,7 +49,7 @@ class SpendingCategoriesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to spending_path
     assert_equal "Coffee & Tea", cat.reload.name
     assert_equal 1500, cat.reload.weekly_target_cents
-    assert_nil cat.reload.monthly_target_cents
+    assert_equal 6000, cat.reload.monthly_target_cents
   end
 
   test "DELETE /spending_categories/:id destroys category and entries" do

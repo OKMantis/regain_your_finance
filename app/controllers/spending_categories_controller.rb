@@ -67,10 +67,10 @@ class SpendingCategoriesController < ApplicationController
       attrs[:monthly_target_cents] = nil
     elsif raw[:target_period] == "monthly"
       attrs[:monthly_target_cents] = cents
-      attrs[:weekly_target_cents]  = nil
+      attrs[:weekly_target_cents]  = (cents / 4.0).round
     else
       attrs[:weekly_target_cents]  = cents
-      attrs[:monthly_target_cents] = nil
+      attrs[:monthly_target_cents] = (cents * 4.0).round
     end
     attrs
   end
