@@ -50,12 +50,12 @@
       </div>
       <div class="flex gap-2">
         <%= f.number_field :weekly_target_euros,
-              value: category.weekly_target_cents ? (category.weekly_target_cents / 100.0).round : nil,
+              value: category.weekly_target_cents ? (category.weekly_target_cents / 100.0).round(2) : nil,
               step: 0.01, min: 0,
               class: "w-1/2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-emerald-500",
               placeholder: "Weekly target (€)" %>
         <%= f.number_field :monthly_target_euros,
-              value: category.monthly_target_cents ? (category.monthly_target_cents / 100.0).round : nil,
+              value: category.monthly_target_cents ? (category.monthly_target_cents / 100.0).round(2) : nil,
               step: 0.01, min: 0,
               class: "w-1/2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-emerald-500",
               placeholder: "Monthly target (€)" %>

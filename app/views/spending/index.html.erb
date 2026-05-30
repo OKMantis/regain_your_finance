@@ -2,11 +2,6 @@
 
 <div class="space-y-4 pt-4 lg:pt-0">
 
-  <%# ── Quick-add form ── %>
-  <% if @categories.any? %>
-    <%= render "spending/quick_add_form", categories: @categories, yearly: @yearly %>
-  <% end %>
-
   <%# ── Category cards ── %>
   <% if @categories.empty? %>
     <div class="flex flex-col items-center justify-center py-16 text-center">
@@ -19,6 +14,8 @@
       <p class="text-slate-600 text-xs mt-1">Use the form below to create categories like Groceries, Coffee, Dining Out</p>
     </div>
   <% else %>
+    <%= render "spending/quick_add_form", categories: @categories, yearly: @yearly %>
+
     <div id="spending_categories_list" class="space-y-3">
       <% @categories.each do |category| %>
         <%= render "spending/category_card",

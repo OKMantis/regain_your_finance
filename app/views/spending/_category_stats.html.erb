@@ -34,7 +34,7 @@
         </div>
         <% if category.weekly_target_cents %>
           <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
-            <div class="h-full rounded-full transition-all <%= progress_bar_color(w_spent, category.weekly_target_cents) %>"
+            <div class="h-full rounded-full transition-all <%= progress_bar_color(w_spent, category.weekly_target_cents) || 'bg-slate-600' %>"
                  style="width: <%= progress_bar_width(w_spent, category.weekly_target_cents) %>"></div>
           </div>
         <% end %>
@@ -50,7 +50,7 @@
         </div>
         <% if category.monthly_target_cents %>
           <div class="h-1.5 bg-slate-800 rounded-full overflow-hidden">
-            <div class="h-full rounded-full transition-all <%= progress_bar_color(m_spent, category.monthly_target_cents) %>"
+            <div class="h-full rounded-full transition-all <%= progress_bar_color(m_spent, category.monthly_target_cents) || 'bg-slate-600' %>"
                  style="width: <%= progress_bar_width(m_spent, category.monthly_target_cents) %>"></div>
           </div>
         <% end %>
