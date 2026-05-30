@@ -58,10 +58,19 @@ class SpendingCategoriesController < ApplicationController
   end
 
   def category_params
-    raw = params.require(:spending_category).permit(:name, :weekly_target_euros, :monthly_target_euros, :period)
+    raw = params.require(:spending_category).permit(:name, :target_euros, :target_period, :period)
+    cents = euros_to_cents(raw[:target_euros])
     attrs = { name: raw[:name] }
-    attrs[:weekly_target_cents]  = euros_to_cents(raw[:weekly_target_euros])
-    attrs[:monthly_target_cents] = euros_to_cents(raw[:monthly_target_euros])
+    if cents.nil?
+      attrs[:weekly_target_cents]  = nil
+      attrs[:monthly_target_cents] = nil
+    elsif raw[:target_period] == "monthly"
+      attrs[:monthly_target_cents] = cents
+      attrs[:weekly_target_cents]  = nil
+    else
+      attrs[:weekly_target_cents]  = cents
+      attrs[:monthly_target_cents] = nil
+    end
     attrs
   end
 
