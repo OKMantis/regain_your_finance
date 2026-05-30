@@ -75,3 +75,28 @@ westend   = Property.create!(name: "West End Flat",     ownership_percentage: 10
   { name: "Gym",          category: :food_entertainment, amount_cents:  4_500, billing_period: :monthly },
   { name: "Hobbies",      category: :food_entertainment, amount_cents:  8_000, billing_period: :monthly }
 ].each { |attrs| LineItem.create!(attrs) }
+
+# ── Spending categories ───────────────────────────────────────────────────────
+
+SpendingEntry.destroy_all
+SpendingCategory.destroy_all
+
+[
+  { name: "Supermarket",    weekly_target_cents: 10_000, monthly_target_cents: 40_000 },
+  { name: "Coffee & Cafes", weekly_target_cents:  2_500, monthly_target_cents: 10_000 },
+  { name: "Dining Out",     weekly_target_cents:  5_000, monthly_target_cents: 20_000 },
+  { name: "Transport",      weekly_target_cents:  3_000, monthly_target_cents: 12_000 },
+  { name: "Misc",           weekly_target_cents:    nil, monthly_target_cents:    nil  }
+].each { |attrs| SpendingCategory.create!(attrs) }
+
+supermarket = SpendingCategory.find_by!(name: "Supermarket")
+coffee      = SpendingCategory.find_by!(name: "Coffee & Cafes")
+dining      = SpendingCategory.find_by!(name: "Dining Out")
+
+[
+  { spending_category: supermarket, amount_cents: 3_450, spent_on: Date.today,                   description: "Weekly shop" },
+  { spending_category: supermarket, amount_cents: 1_200, spent_on: Date.today - 3,               description: "Top-up" },
+  { spending_category: coffee,      amount_cents:   380, spent_on: Date.today,                   description: nil },
+  { spending_category: coffee,      amount_cents:   420, spent_on: Date.today - 1,               description: nil },
+  { spending_category: dining,      amount_cents: 4_800, spent_on: Date.today.beginning_of_week, description: "Dinner" }
+].each { |attrs| SpendingEntry.create!(attrs) }
