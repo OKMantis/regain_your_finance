@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="h-full">
   <head>
-    <title>Regain</title>
+    <title>Regain Your Finance</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Regain">
+    <meta name="apple-mobile-web-app-title" content="Regain Your Finance">
     <meta name="theme-color" content="#0f172a">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="apple-touch-icon" href="/icon.png">
 
@@ -36,7 +37,7 @@
             </svg>
           </div>
           <div>
-            <p class="font-bold text-white tracking-tight leading-none">Regain</p>
+            <p class="font-bold text-white tracking-tight leading-none">Regain Your Finance</p>
             <p class="text-slate-500 text-xs mt-0.5">Finance Dashboard</p>
           </div>
         </div>
@@ -89,7 +90,7 @@
 
       <%# Mobile header — hidden on desktop %>
       <header class="lg:hidden flex items-center justify-between px-5 pt-14 pb-4 bg-slate-950/95 backdrop-blur-sm sticky top-0 z-10">
-        <span class="text-xl font-bold tracking-tight text-white">Regain</span>
+        <span class="text-xl font-bold tracking-tight text-white">Regain Your Finance</span>
       </header>
 
       <%# Desktop topbar — hidden on mobile %>
