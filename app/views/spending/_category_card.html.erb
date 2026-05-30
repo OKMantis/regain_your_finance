@@ -62,11 +62,11 @@
                 placeholder: "Budget (optional)" %>
         </div>
         <div class="flex rounded-lg border border-slate-700 overflow-hidden text-xs font-medium self-stretch">
-          <label class="cursor-pointer flex items-center">
+          <label class="relative cursor-pointer flex items-center">
             <%= f.radio_button :target_period, "weekly", class: "sr-only peer", checked: edit_target_period == "weekly" %>
             <span class="px-3 h-full flex items-center text-slate-400 peer-checked:text-white peer-checked:bg-emerald-600 transition-colors">Weekly</span>
           </label>
-          <label class="cursor-pointer flex items-center border-l border-slate-700">
+          <label class="relative cursor-pointer flex items-center border-l border-slate-700">
             <%= f.radio_button :target_period, "monthly", class: "sr-only peer", checked: edit_target_period == "monthly" %>
             <span class="px-3 h-full flex items-center text-slate-400 peer-checked:text-white peer-checked:bg-emerald-600 transition-colors">Monthly</span>
           </label>
