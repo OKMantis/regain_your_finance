@@ -3,9 +3,9 @@ class SpendingCategoriesController < ApplicationController
 
   def create
     @category = SpendingCategory.new(category_params)
+    @yearly   = params[:spending_category][:period] == "yearly"
 
     if @category.save
-      @yearly = params[:spending_category][:period] == "yearly"
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to spending_path }

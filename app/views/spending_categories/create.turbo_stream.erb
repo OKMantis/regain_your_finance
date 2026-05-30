@@ -3,7 +3,7 @@
         category: @category,
         weekly_total: 0,
         monthly_total: 0,
-        yearly_total: nil,
+        yearly_total: @yearly ? 0 : nil,
         entries: [],
         yearly: @yearly %>
 <% end %>
