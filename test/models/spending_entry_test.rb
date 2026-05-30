@@ -48,4 +48,22 @@ class SpendingEntryTest < ActiveSupport::TestCase
     e.amount_cents = 1550
     assert_equal 15.5, e.amount_euros
   end
+
+  test "amount_euros returns 0.0 when amount_cents is 0" do
+    e = valid_entry
+    e.amount_cents = 0
+    assert_equal 0.0, e.amount_euros
+  end
+
+  test "amount_euros returns integer euros with no fractional part when divisible" do
+    e = valid_entry
+    e.amount_cents = 2000
+    assert_equal 20.0, e.amount_euros
+  end
+
+  test "amount_cents zero is valid" do
+    e = valid_entry
+    e.amount_cents = 0
+    assert e.valid?
+  end
 end

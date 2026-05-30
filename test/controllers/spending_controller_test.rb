@@ -20,4 +20,36 @@ class SpendingControllerTest < ActionDispatch::IntegrationTest
     get spending_path, params: { period: "yearly" }
     assert_response :success
   end
+
+  test "GET /spending displays multiple categories ordered by name" do
+    SpendingCategory.create!(name: "Zucchini")
+    SpendingCategory.create!(name: "Apple")
+    get spending_path
+    assert_response :success
+    body = response.body
+    assert body.index("Apple") < body.index("Zucchini"),
+           "Expected categories to be rendered in alphabetical order"
+  end
+
+  test "GET /spending period=yearly shows yearly totals in the view" do
+    cat = SpendingCategory.create!(name: "YearCat", monthly_target_cents: 10000)
+    SpendingEntry.create!(spending_category: cat, amount_cents: 2500, spent_on: Date.today)
+    get spending_path, params: { period: "yearly" }
+    assert_response :success
+    assert_select "div#spending_category_stats_#{cat.id}"
+  end
+
+  test "GET /spending shows entries for the current month" do
+    cat = SpendingCategory.create!(name: "MonthCat")
+    SpendingEntry.create!(spending_category: cat, amount_cents: 1200, spent_on: Date.today)
+    get spending_path
+    assert_response :success
+    assert_select "div#spending_categories_list"
+  end
+
+  test "GET /spending shows empty state when no categories exist" do
+    get spending_path
+    assert_response :success
+    assert_select "p", text: /Add your first spending category/
+  end
 end

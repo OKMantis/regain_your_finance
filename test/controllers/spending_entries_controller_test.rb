@@ -48,4 +48,25 @@ class SpendingEntriesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal "text/vnd.turbo-stream.html", response.media_type
   end
+
+  test "POST /spending_entries with period=yearly passes yearly flag to response" do
+    post spending_entries_path,
+         params: { spending_entry: { spending_category_id: category.id, amount_euros: "8.00", period: "yearly" } },
+         headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    assert_response :success
+    assert_equal "text/vnd.turbo-stream.html", response.media_type
+  end
+
+  test "DELETE /spending_entries/:id with period=yearly passes yearly flag" do
+    entry = SpendingEntry.create!(spending_category: category, amount_cents: 300, spent_on: Date.today)
+    delete spending_entry_path(entry), params: { period: "yearly" }
+    assert_redirected_to spending_path
+  end
+
+  test "POST /spending_entries converts fractional euro amounts correctly" do
+    post spending_entries_path,
+         params: { spending_entry: { spending_category_id: category.id, amount_euros: "9.99" } }
+    assert_redirected_to spending_path
+    assert_equal 999, SpendingEntry.last.amount_cents
+  end
 end

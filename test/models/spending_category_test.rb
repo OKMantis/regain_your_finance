@@ -60,4 +60,37 @@ class SpendingCategoryTest < ActiveSupport::TestCase
     total_spent = weeks.sum { |w| w[:spent_cents] }
     assert_equal 5000, total_spent
   end
+
+  test "weeks_in_month returns zero spent_cents when no entries exist" do
+    cat = SpendingCategory.create!(name: "Empty", weekly_target_cents: 3000)
+    weeks = cat.weeks_in_month(Date.new(2026, 5, 1))
+    assert weeks.length >= 4
+    assert weeks.all? { |w| w[:spent_cents] == 0 }
+  end
+
+  test "weeks_in_month week start is clamped to month start" do
+    # May 2026 starts on a Friday; first bucket should start on May 1, not the Monday before
+    cat = SpendingCategory.create!(name: "Clamp", weekly_target_cents: 1000)
+    weeks = cat.weeks_in_month(Date.new(2026, 5, 1))
+    assert_equal Date.new(2026, 5, 1), weeks.first[:start]
+  end
+
+  test "weeks_in_month week end is clamped to month end" do
+    # May 2026 ends on a Sunday so no clamping needed, but June 2026 ends on a Tuesday
+    cat = SpendingCategory.create!(name: "EndClamp")
+    weeks = cat.weeks_in_month(Date.new(2026, 6, 1))
+    assert_equal Date.new(2026, 6, 30), weeks.last[:end]
+  end
+
+  test "weeks_in_month each bucket carries the category weekly_target_cents" do
+    cat = SpendingCategory.create!(name: "Target", weekly_target_cents: 7500)
+    weeks = cat.weeks_in_month(Date.new(2026, 5, 1))
+    weeks.each { |w| assert_equal 7500, w[:target_cents] }
+  end
+
+  test "weeks_in_month target_cents is nil when weekly_target_cents not set" do
+    cat = SpendingCategory.create!(name: "NoTarget")
+    weeks = cat.weeks_in_month(Date.new(2026, 5, 1))
+    weeks.each { |w| assert_nil w[:target_cents] }
+  end
 end
