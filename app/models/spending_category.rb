@@ -1,9 +1,13 @@
 class SpendingCategory < ApplicationRecord
   has_many :spending_entries, dependent: :destroy
 
-  validates :name, presence: true, uniqueness: true
-  validates :weekly_target_cents,  numericality: { greater_than_or_equal_to: 0, allow_nil: true }
-  validates :monthly_target_cents, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :name, presence: true, uniqueness: true, length: { maximum: 100 }
+  validates :weekly_target_cents,  numericality: { greater_than_or_equal_to: 0,
+                                                    less_than_or_equal_to: 10_000_000,
+                                                    allow_nil: true }
+  validates :monthly_target_cents, numericality: { greater_than_or_equal_to: 0,
+                                                    less_than_or_equal_to: 10_000_000,
+                                                    allow_nil: true }
 
   # Returns an array of week buckets for the given month.
   # Each bucket: { start: Date, end: Date, spent_cents: Integer, target_cents: Integer|nil }
