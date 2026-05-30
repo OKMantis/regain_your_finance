@@ -2,10 +2,10 @@
 
 A personal finance dashboard for tracking income, expenses, and property finances — built for clarity and daily use.
 
+**[Live demo →](https://regain-your-finance.onrender.com)**
+
 ![Ruby](https://img.shields.io/badge/Ruby-3.3.5-CC342D?logo=ruby&logoColor=white)
 ![Rails](https://img.shields.io/badge/Rails-8.1-CC0000?logo=rubyonrails&logoColor=white)
-
-<!-- Add a screenshot here -->
 
 ## Features
 
@@ -21,8 +21,7 @@ A personal finance dashboard for tracking income, expenses, and property finance
 
 - Ruby on Rails 8.1 · PostgreSQL
 - Tailwind CSS · Hotwire (Turbo + Stimulus) · importmap · Propshaft
-- Solid Cache / Queue / Cable (database-backed, no Redis required)
-- Deployed with Kamal
+- Deployed on Render · Neon PostgreSQL
 
 ## Getting started
 
