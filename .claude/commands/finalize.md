@@ -1,7 +1,9 @@
-# finalize
+---
+name: finalize
+description: Final quality pass after Superpowers completes a feature branch. Runs tester, reviewer, cybersecurity, and documenter in sequence. Run before merging any branch.
+---
 
-Final quality pass after Superpowers completes a feature branch.
-Run before merging any branch.
+Run the following agents in order. Do not proceed to the next agent if the current one flags a blocker.
 
 ## Steps
 
