@@ -55,7 +55,7 @@ class SpendingCategoriesControllerTest < ActionDispatch::IntegrationTest
   test "DELETE /spending_categories/:id destroys category and entries" do
     cat = SpendingCategory.create!(name: "Misc")
     cat.spending_entries.create!(amount_cents: 500, spent_on: Date.today)
-    assert_difference ["SpendingCategory.count", "SpendingEntry.count"], -1 do
+    assert_difference [ "SpendingCategory.count", "SpendingEntry.count" ], -1 do
       delete spending_category_path(cat)
     end
     assert_redirected_to spending_path

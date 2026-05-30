@@ -28,7 +28,7 @@ module ApplicationHelper
 
   def progress_bar_width(spent_cents, target_cents)
     return "0%" if target_cents.nil? || target_cents.zero?
-    pct = [spent_cents * 100.0 / target_cents, 100].min
+    pct = [ spent_cents * 100.0 / target_cents, 100 ].min
     "#{pct.round(1)}%"
   end
 end

@@ -23,8 +23,8 @@ class SpendingCategory < ApplicationRecord
     cursor      = month_start.beginning_of_week
 
     while cursor <= month_end
-      wk_start = [cursor, month_start].max
-      wk_end   = [cursor.end_of_week, month_end].min
+      wk_start = [ cursor, month_start ].max
+      wk_end   = [ cursor.end_of_week, month_end ].min
       spent = if preloaded_entries
         preloaded_entries
           .select { |e| e.spent_on >= wk_start && e.spent_on <= wk_end }

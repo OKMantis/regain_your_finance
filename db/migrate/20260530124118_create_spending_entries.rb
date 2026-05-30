@@ -8,6 +8,6 @@ class CreateSpendingEntries < ActiveRecord::Migration[8.1]
       t.timestamps
     end
     add_index :spending_entries, :spent_on
-    add_index :spending_entries, [:spending_category_id, :spent_on]
+    add_index :spending_entries, [ :spending_category_id, :spent_on ]
   end
 end
