@@ -6,6 +6,7 @@ class SpendingCategoriesController < ApplicationController
     @yearly   = params[:spending_category][:period] == "yearly"
 
     if @category.save
+      @categories = SpendingCategory.order(:name)
       respond_to do |format|
         format.turbo_stream
         format.html { redirect_to spending_path }
