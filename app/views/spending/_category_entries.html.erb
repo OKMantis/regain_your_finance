@@ -1,0 +1,50 @@
+<div id="spending_category_entries_<%= category.id %>"
+     data-spending-card-target="entries"
+     class="hidden mt-4 border-t border-slate-800/60 pt-4">
+
+  <%# Entry list for current month %>
+  <div class="mb-4">
+    <p class="text-xs text-slate-500 font-medium uppercase tracking-wide mb-2">Entries this month</p>
+    <% if entries.empty? %>
+      <p class="text-slate-600 text-sm">No entries this month.</p>
+    <% else %>
+      <% entries.each do |entry| %>
+        <%= render "spending/entry_row", entry: entry, yearly: yearly %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <%# Week-by-week breakdown %>
+  <div>
+    <p class="text-xs text-slate-500 font-medium uppercase tracking-wide mb-2">Week breakdown</p>
+    <table class="w-full text-xs">
+      <thead>
+        <tr class="text-slate-500">
+          <th class="text-left pb-1 font-normal">Week</th>
+          <th class="text-right pb-1 font-normal">Spent</th>
+          <% if category.weekly_target_cents %>
+            <th class="text-right pb-1 font-normal">Target</th>
+            <th class="text-right pb-1 font-normal">Diff</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% category.weeks_in_month.each do |wk| %>
+          <tr class="border-t border-slate-800/30">
+            <td class="py-1 text-slate-400">
+              <%= wk[:start].strftime("%b %d") %> – <%= wk[:end].strftime("%b %d") %>
+            </td>
+            <td class="py-1 text-right text-white"><%= format_euros(wk[:spent_cents]) %></td>
+            <% if category.weekly_target_cents %>
+              <td class="py-1 text-right text-slate-400"><%= format_euros(wk[:target_cents]) %></td>
+              <% diff = wk[:target_cents] - wk[:spent_cents] %>
+              <td class="py-1 text-right <%= diff >= 0 ? 'text-emerald-400' : 'text-red-400' %>">
+                <%= diff >= 0 ? "+" : "" %><%= format_euros(diff.abs) %><%= diff < 0 ? " over" : "" %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
