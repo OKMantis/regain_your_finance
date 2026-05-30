@@ -20,7 +20,7 @@
                   class: "w-1/2 bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-emerald-500",
                   placeholder: "Monthly target (€)" %>
           </div>
-          <%= f.hidden_field :period, value: nil %>
+          <%= f.hidden_field :period, value: yearly ? "yearly" : nil %>
           <%= f.submit "Create category",
                 class: "w-full bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-medium py-2 rounded-lg transition-colors cursor-pointer" %>
         </div>
