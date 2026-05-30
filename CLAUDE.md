@@ -24,6 +24,8 @@ bin/rails db:schema:load         # Load schema (faster than running all migratio
 - **`LineItem`** — personal income and expenses (salary, subscriptions, food, etc.), optionally scoped to a property
 - **`Property`** — a real estate property with an ownership percentage
 - **`PropertyExpense`** — property-specific costs (mortgage, insurance, tax, community, contingency)
+- **`SpendingCategory`** — a named budget category with optional `weekly_target_cents` and `monthly_target_cents`; has many `SpendingEntry` records. Provides `weeks_in_month` to bucket entries into ISO week ranges for a given month (accepts `preloaded_entries:` to avoid N+1 queries).
+- **`SpendingEntry`** — a single real-world purchase: `amount_cents`, `spent_on` (date), `description`, and `belongs_to :spending_category`
 
 All monetary values are stored as integer cents in `amount_cents`. A `before_save` callback computes `amount_cents_monthly` by normalizing the billing period (monthly/yearly/quarterly/bi_weekly/weekly) using `MONTHLY_DIVISORS`. All display math should use `amount_cents_monthly` for aggregation, then convert to euros by dividing by 100.
 
@@ -36,6 +38,7 @@ All monetary values are stored as integer cents in `amount_cents`. A `before_sav
 - **`/` (DashboardController#index)** — monthly/yearly savings summary, income list, expense breakdown by category
 - **`/details` (DetailsController#index)** — line items grouped by category with inline editing
 - **`/properties` (PropertiesController#index)** — per-property income, expenses, and net figures
+- **`/spending` (SpendingController#index)** — spending log: per-category cards showing weekly and monthly actual vs. budget targets, expandable entry list. CRUD for categories handled by `SpendingCategoriesController`; individual entries by `SpendingEntriesController`. Supports `?period=yearly`.
 
 Period toggle is a query param `?period=yearly`. Controllers set `@yearly = params[:period] == "yearly"` and views use a `multiplier` (1 or 12) to scale `amount_cents_monthly`.
 
@@ -46,6 +49,7 @@ Layout in `app/views/layouts/application.html.erb`: desktop sidebar (fixed, 256p
 Stimulus controllers in `app/javascript/controllers/`:
 - `inline_edit_controller` — click-to-edit for line item amounts; converts euro input to cents before form submit
 - `property_detail_controller` — property-level UI interactions
+- `spending_card_controller` — per-category card on the Spending page; `toggleEntries` shows/hides the entry list with chevron rotation, `startEdit`/`cancelEdit` swap the category header with its inline edit form
 
 Tailwind CSS compiled via `bin/rails tailwindcss:watch` (run automatically by `bin/dev`). Source in `app/assets/tailwind/application.css`.
 

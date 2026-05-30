@@ -1,0 +1,17 @@
+<%= turbo_stream.replace "spending_category_stats_#{@entry.spending_category_id}" do %>
+  <%= render "spending/category_stats",
+        category: @category,
+        weekly_total: @weekly_total,
+        monthly_total: @monthly_total,
+        yearly_total: @yearly_total,
+        yearly: @yearly %>
+<% end %>
+<%= turbo_stream.prepend "spending_entry_list_#{@entry.spending_category_id}" do %>
+  <%= render "spending/entry_row", entry: @entry, yearly: @yearly %>
+<% end %>
+<%= turbo_stream.remove "no_entries_#{@entry.spending_category_id}" %>
+<%= turbo_stream.replace "quick_add_form" do %>
+  <%= render "spending/quick_add_form",
+        categories: @categories,
+        yearly: @yearly %>
+<% end %>

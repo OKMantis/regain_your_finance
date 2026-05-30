@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_16_181734) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_30_124118) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,6 +46,28 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_16_181734) do
     t.index ["property_id"], name: "index_property_expenses_on_property_id"
   end
 
+  create_table "spending_categories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "monthly_target_cents"
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.integer "weekly_target_cents"
+    t.index ["name"], name: "index_spending_categories_on_name", unique: true
+  end
+
+  create_table "spending_entries", force: :cascade do |t|
+    t.integer "amount_cents", null: false
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.bigint "spending_category_id", null: false
+    t.date "spent_on", null: false
+    t.datetime "updated_at", null: false
+    t.index ["spending_category_id", "spent_on"], name: "index_spending_entries_on_spending_category_id_and_spent_on"
+    t.index ["spending_category_id"], name: "index_spending_entries_on_spending_category_id"
+    t.index ["spent_on"], name: "index_spending_entries_on_spent_on"
+  end
+
   add_foreign_key "line_items", "properties"
   add_foreign_key "property_expenses", "properties"
+  add_foreign_key "spending_entries", "spending_categories"
 end

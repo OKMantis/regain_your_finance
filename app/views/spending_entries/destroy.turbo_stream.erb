@@ -1,0 +1,9 @@
+<%= turbo_stream.replace "spending_category_stats_#{@category.id}" do %>
+  <%= render "spending/category_stats",
+        category: @category,
+        weekly_total: @weekly_total,
+        monthly_total: @monthly_total,
+        yearly_total: @yearly_total,
+        yearly: @yearly %>
+<% end %>
+<%= turbo_stream.remove "spending_entry_#{@entry.id}" %>

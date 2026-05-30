@@ -11,4 +11,8 @@ Rails.application.routes.draw do
 
   resources :line_items, only: [ :update ]
   resources :property_expenses, only: [ :update ]
+
+  get "spending", to: "spending#index", as: :spending
+  resources :spending_categories, only: [ :create, :update, :destroy ]
+  resources :spending_entries,    only: [ :create, :destroy ]
 end
