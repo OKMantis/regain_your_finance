@@ -39,7 +39,7 @@
 
   <%# ── Inline edit form (hidden by default) ── %>
   <div data-spending-card-target="editForm" class="hidden">
-    <%= form_with url: spending_category_path(category), method: :patch, data: { turbo: true } do |f| %>
+    <%= form_with url: spending_category_path(category), scope: :spending_category, method: :patch, data: { turbo: true } do |f| %>
       <div class="flex items-center gap-2 mb-3">
         <%= f.text_field :name, value: category.name,
               class: "flex-1 bg-slate-800 border border-slate-700 rounded-lg px-3 py-1.5 text-white text-sm focus:outline-none focus:border-emerald-500",

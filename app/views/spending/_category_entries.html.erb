@@ -5,13 +5,15 @@
   <%# Entry list for current month %>
   <div class="mb-4">
     <p class="text-xs text-slate-500 font-medium uppercase tracking-wide mb-2">Entries this month</p>
-    <% if entries.empty? %>
-      <p class="text-slate-600 text-sm">No entries this month.</p>
-    <% else %>
-      <% entries.each do |entry| %>
-        <%= render "spending/entry_row", entry: entry, yearly: yearly %>
+    <div id="spending_entry_list_<%= category.id %>">
+      <% if entries.empty? %>
+        <p id="no_entries_<%= category.id %>" class="text-slate-600 text-sm">No entries this month.</p>
+      <% else %>
+        <% entries.each do |entry| %>
+          <%= render "spending/entry_row", entry: entry, yearly: yearly %>
+        <% end %>
       <% end %>
-    <% end %>
+    </div>
   </div>
 
   <%# Week-by-week breakdown %>

@@ -1,6 +1,6 @@
 <div id="quick_add_form" class="bg-slate-900 rounded-xl border border-slate-800/60 px-5 py-4">
   <p class="text-xs text-slate-500 font-medium uppercase tracking-wide mb-3">Log expense</p>
-  <%= form_with url: spending_entries_path, method: :post, data: { turbo: true },
+  <%= form_with url: spending_entries_path, scope: :spending_entry, method: :post, data: { turbo: true },
         class: "flex flex-col sm:flex-row gap-2" do |f| %>
     <%= f.select :spending_category_id,
           categories.map { |c| [c.name, c.id] },

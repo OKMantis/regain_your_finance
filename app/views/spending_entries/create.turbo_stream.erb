@@ -6,9 +6,10 @@
         yearly_total: @yearly_total,
         yearly: @yearly %>
 <% end %>
-<%= turbo_stream.prepend "spending_category_entries_#{@entry.spending_category_id}" do %>
+<%= turbo_stream.prepend "spending_entry_list_#{@entry.spending_category_id}" do %>
   <%= render "spending/entry_row", entry: @entry, yearly: @yearly %>
 <% end %>
+<%= turbo_stream.remove "no_entries_#{@entry.spending_category_id}" %>
 <%= turbo_stream.replace "quick_add_form" do %>
   <%= render "spending/quick_add_form",
         categories: SpendingCategory.order(:name),
