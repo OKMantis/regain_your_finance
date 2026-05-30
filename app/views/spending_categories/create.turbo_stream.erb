@@ -1,0 +1,12 @@
+<%= turbo_stream.append "spending_categories_list" do %>
+  <%= render "spending/category_card",
+        category: @category,
+        weekly_total: 0,
+        monthly_total: 0,
+        yearly_total: nil,
+        entries: [],
+        yearly: @yearly %>
+<% end %>
+<%= turbo_stream.replace "new_category_form" do %>
+  <%= render "spending/new_category_form", yearly: @yearly %>
+<% end %>

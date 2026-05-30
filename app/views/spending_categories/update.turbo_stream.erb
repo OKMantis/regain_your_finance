@@ -1,0 +1,9 @@
+<%= turbo_stream.replace "spending_category_#{@category.id}" do %>
+  <%= render "spending/category_card",
+        category: @category,
+        weekly_total: @weekly_total,
+        monthly_total: @monthly_total,
+        yearly_total: @yearly_total,
+        entries: @entries,
+        yearly: @yearly %>
+<% end %>
