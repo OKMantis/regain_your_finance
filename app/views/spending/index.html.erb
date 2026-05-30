@@ -1,0 +1,9 @@
+<% content_for :page_title, "Spending" %>
+
+<div id="spending_categories_list">
+  <% @categories.each do |category| %>
+    <div id="spending_category_<%= category.id %>">
+      <div id="spending_category_stats_<%= category.id %>"></div>
+    </div>
+  <% end %>
+</div>
