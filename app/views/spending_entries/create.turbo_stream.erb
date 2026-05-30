@@ -12,6 +12,6 @@
 <%= turbo_stream.remove "no_entries_#{@entry.spending_category_id}" %>
 <%= turbo_stream.replace "quick_add_form" do %>
   <%= render "spending/quick_add_form",
-        categories: SpendingCategory.order(:name),
+        categories: @categories,
         yearly: @yearly %>
 <% end %>

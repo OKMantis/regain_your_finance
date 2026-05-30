@@ -14,7 +14,8 @@ class SpendingEntriesController < ApplicationController
     @yearly = params[:spending_entry][:period] == "yearly"
 
     if @entry.save
-      @category = @entry.spending_category
+      @category   = @entry.spending_category
+      @categories = SpendingCategory.order(:name)
       compute_category_totals
       respond_to do |format|
         format.turbo_stream

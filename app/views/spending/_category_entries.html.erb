@@ -31,7 +31,7 @@
         </tr>
       </thead>
       <tbody>
-        <% category.weeks_in_month.each do |wk| %>
+        <% category.weeks_in_month(preloaded_entries: entries).each do |wk| %>
           <tr class="border-t border-slate-800/30">
             <td class="py-1 text-slate-400">
               <%= wk[:start].strftime("%b %d") %> – <%= wk[:end].strftime("%b %d") %>
