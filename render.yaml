@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: regain-your-finance
+    runtime: ruby
+    buildCommand: bundle install && bin/rails tailwindcss:build && bin/rails assets:precompile && bin/rails db:migrate
+    startCommand: bin/rails server -p $PORT
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: SECRET_KEY_BASE
+        generateValue: true
